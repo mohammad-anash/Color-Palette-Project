@@ -56,11 +56,11 @@ function addMidColor(event) {
       window.getComputedStyle(parentElement).backgroundColor,
       window.getComputedStyle(parentElement.nextElementSibling).backgroundColor,
     ];
-    const getColor = mixTwoColor(currentEleColor, nextEleColor);
-    midColorDiv.style.backgroundColor = `rgb(${getColor[0]}, ${getColor[1]}, ${getColor[2]})`;
+    const [color1, color2] = [currentEleColor, nextEleColor];
+    const mixedColor = tinycolor.mix(color1, color2);
+    midColorDiv.style.backgroundColor = mixedColor;
   }
 
-  // midColorDiv.style.backgroundColor = "red";
   midColorDiv.innerHTML = `<i class="ri-close-line close"></i><div id="plus">+</div>`;
   parentElement.insertAdjacentElement("afterEnd", midColorDiv);
 }
@@ -103,27 +103,6 @@ function generateColor(letterCode) {
     hash += letter[Math.floor(Math.random() * letterCode.length)];
 
   return hash;
-}
-
-function mixTwoColor(colorFir, colorSec) {
-  const [firCode, secCode, colorName] = [
-    colorFir.match(/\d+/g),
-    colorSec.match(/\d+/g),
-    ["red", "green", "blue"],
-  ];
-  const map = new Map();
-
-  firCode.forEach((code, i) =>
-    map.set(colorName[i], Math.round((code + secCode[i]) / 1000))
-  );
-
-  const [red, green, blue] = [
-    map.get("red"),
-    map.get("green"),
-    map.get("blue"),
-  ];
-
-  return [red, green, blue];
 }
 
 container.addEventListener("click", handleRemoveAndOtherFunctionality);
