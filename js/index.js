@@ -5,6 +5,7 @@ const boxes = container.querySelectorAll(".box");
 
 let letter = "123456789abcdef";
 let boxesColor;
+let element;
 boxesColor = [
   generateColor(letter),
   generateColor(letter),
@@ -21,35 +22,20 @@ function callFunctionWhenPressSpace(event) {
       generateColor(letter),
       generateColor(letter),
       generateColor(letter),
-    ].forEach((color, i) => (boxes[i].style.backgroundColor = color));
+    ].forEach((color, i) => {
+      boxes[i].style.backgroundColor = color;
+    });
   }
 }
 
-function handleMouseMove(event, i) {
-  remove[i].style.display = "block";
-}
-
-function handleMouseOut(event, i) {
-  remove[i].style.display = "none";
-}
-
 boxes.forEach((element, i) => {
-  const mouseMoveHandler = (event) => handleMouseMove(event, i);
-  const mouseOutHandler = (event) => handleMouseOut(event, i);
-
   element.style.backgroundColor = boxesColor[i];
-
-  element.addEventListener("mousemove", mouseMoveHandler);
-  element.addEventListener("mouseout", mouseOutHandler);
-
-  element._mouseMoveHandler = mouseMoveHandler;
-  element._mouseOutHandler = mouseOutHandler;
 });
 
 function addMidColor(event) {
   const midColorDiv = document.createElement("div");
   midColorDiv.classList.add("box");
-  const parentElement = event.target.parentElement;
+  const parentElement = event.target.parentElement.parentElement;
 
   if (parentElement && parentElement.nextElementSibling) {
     const [currentEleColor, nextEleColor] = [
@@ -61,19 +47,36 @@ function addMidColor(event) {
     midColorDiv.style.backgroundColor = mixedColor;
   }
 
-  midColorDiv.innerHTML = `<i class="ri-close-line close"></i><div id="plus">+</div>`;
+  midColorDiv.innerHTML = `<div id="feature">
+          <i class="ri-close-line close"></i>
+          <i class="ri-edit-line edit"></i>
+        </div>
+         <div class="mix-two-color">
+          <div id="plus" class="add">+</div>
+        </div>`;
   parentElement.insertAdjacentElement("afterEnd", midColorDiv);
 }
 
 function handleRemoveAndOtherFunctionality(event) {
   const boxes = container.querySelectorAll(".box");
   if (event.target.classList.contains("close")) {
-    event.target.parentElement.remove();
+    event.target.parentElement.parentElement.remove();
     container
       .querySelectorAll(".box")
       .forEach((box) => (box.style.width = 50 + 5 + "%"));
   } else if (event.target.id === "plus") {
+    console.log(event.target);
     addMidColor(event);
+  } else if (event.target.classList.contains("edit")) {
+    const editContainer = document.getElementById("edit-container");
+    editContainer.style.display = "block";
+    editContainer.classList.add("show");
+    element = event.target;
+  } else if (event.target.id === "edit-btn") {
+    hexColorFunctionality(element);
+  } else if (event.target.id === "close") {
+    event.target.parentElement.classList.remove("show");
+    event.target.parentElement.style.display = "none";
   }
 
   const condition = boxes.length;
@@ -105,6 +108,14 @@ function generateColor(letterCode) {
   return hash;
 }
 
-container.addEventListener("click", handleRemoveAndOtherFunctionality);
+function hexColorFunctionality(element) {
+  let editHex = document.getElementById("edit-hex");
+  const hexCode = editHex.value;
+  element.parentElement.parentElement.style.backgroundColor = "#" + hexCode;
+
+  editHex.value = "";
+}
+
+document.body.addEventListener("click", handleRemoveAndOtherFunctionality);
 document.addEventListener("keydown", callFunctionWhenPressSpace);
 container.appendChild(docFrag);

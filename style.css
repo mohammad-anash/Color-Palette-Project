@@ -8,6 +8,10 @@
 body {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #container {
@@ -15,37 +19,19 @@ body {
   height: 100%;
   background-color: black;
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
+  position: relative;
 }
 
 .box {
   width: 55%;
   height: 100%;
-  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
 
-.box .i {
-  display: none;
-  cursor: pointer;
-  text-align: center;
-  color: black;
-  font-weight: 500;
-  font-size: 24px;
-}
-
 #plus {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translate(50%, -50%);
-  color: black;
-  font-size: 25px;
-  z-index: 1;
   cursor: pointer;
   width: 30px;
   height: 30px;
@@ -57,4 +43,80 @@ body {
   border-radius: 50%;
   font-size: 20px;
   font-weight: 900;
+}
+
+.mix-two-color {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transform: translate(50%, -50%);
+  color: black;
+  font-size: 25px;
+  z-index: 1;
+  opacity: 0;
+}
+
+.mix-two-color:hover {
+  opacity: 9;
+  transition: 0.2s;
+}
+
+#feature {
+  font-size: 20px;
+  width: 50px;
+  display: flex;
+  opacity: 0;
+  align-items: center;
+  flex-direction: column;
+}
+
+#feature i {
+  cursor: pointer;
+}
+#feature:hover {
+  opacity: 9;
+}
+
+#edit-container {
+  width: 280px;
+  height: 130px;
+  background-color: black;
+  color: white;
+  display: none;
+  border-radius: 5px;
+}
+
+#edit-container #edit-hex {
+  width: 90%;
+  margin: 20px 10px;
+  font-size: 15px;
+  color: white;
+  background-color: black;
+  border: 2px solid white;
+  outline: none;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#edit-container .same-css {
+  width: 20%;
+  margin: 0px 10px;
+  font-size: 15px;
+  color: white;
+  background-color: black;
+  border: 2px solid white;
+  border-radius: 2px;
+  padding: 2px;
+  cursor: pointer;
+  border: 1.5px solid white;
+}
+
+.show {
+  position: absolute;
+  top: 35%;
+  left: 39%;
+  z-index: 1;
 }
